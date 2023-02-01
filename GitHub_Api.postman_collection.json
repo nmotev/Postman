@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "ad2196b0-7108-44ac-aff8-e733872ec1a9",
+		"name": "GitHub_Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25583165"
+	},
+	"item": [
+		{
+			"name": "Issues",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Get_Single_Issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check status code\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Check issue number\", function()\r",
+											"{\r",
+											"const body = pm.response.json();\r",
+											"\r",
+											"pm.expect(body.number, \"Number property\").to.be.equal(1);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues/1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues",
+										"1"
+									]
+								},
+								"description": "\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get_Single_Issue_Labels",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status check\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Status check\", function () {\r",
+											"   \r",
+											"    pm.expect(pm.response.status).equal(\"OK\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues/1/labels",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues",
+										"1",
+										"labels"
+									]
+								},
+								"description": "\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get_All_Issue",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check if response is an array of issues\",\r",
+											"function(){\r",
+											"const body = pm.response.json();\r",
+											"    console.log(\"BODY\", body);\r",
+											"pm.expect(Array.isArray(body))\r",
+											"for(let item of body){\r",
+											"    pm.expect(typeof(item.title)).equal(\"string\");\r",
+											"    pm.expect(typeof(item.number)).equals(\"number\");\r",
+											"    pm.expect(item.number, \"Issue number property\").is.greaterThan(0);\r",
+											"}\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "Create_Issue_POSTMAN",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "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",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "nmotev",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Issue from POSTMAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues"
+									]
+								},
+								"description": "\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Create_Issue_ONE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Check issue number and title\", function()\r",
+											"{\r",
+											"   let body = pm.response.json();\r",
+											"    pm.expect(body.number, \"Number property\").greaterThan(0);\r",
+											"    pm.expect(body.title, \"Title property\").equal(\"Issue from POSTMAN \")\r",
+											"\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "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",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "nmotev",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Issue from POSTMAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create_Issue_With_Labels",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "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",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "nmotev",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Issue with labels\",\r\n    \"labels\": [\r\n        \"bug\",\r\n        \"priority:critcel\",\r\n        \"moqtlabels\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman/issues",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman",
+										"issues"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Repos",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Get_All_Repos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.github.com/users/nmotev/repos",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"users",
+										"nmotev",
+										"repos"
+									]
+								},
+								"description": "\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get_Single_Repo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check repo name\", function () \r",
+											"{\r",
+											"    const body = pm.response.json();\r",
+											"    pm.expect(body.name, \"Name propery\").equals(\"Postman\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.github.com/repos/nmotev/postman",
+									"protocol": "https",
+									"host": [
+										"api",
+										"github",
+										"com"
+									],
+									"path": [
+										"repos",
+										"nmotev",
+										"postman"
+									]
+								},
+								"description": "\r\n"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
